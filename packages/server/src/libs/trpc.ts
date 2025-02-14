@@ -1,22 +1,20 @@
-import { initTRPC, TRPCError } from "@trpc/server";
+import { initTRPC } from "@trpc/server";
 import { type Context } from "./context";
 
-const t = initTRPC.context<Context>().create();
-
-const baseMiddleWare = t.middleware(async ({ ctx, next }) => {
-  if (!ctx.prisma) {
-    throw new TRPCError({
-      code: "INTERNAL_SERVER_ERROR",
-      message: "Database connection is not available",
-    });
-  }
-
-  return next({
-    ctx: {
-      ...ctx,
-    },
-  });
+const t = initTRPC.context<Context>().create({
+  errorFormatter({ shape, error }) {
+    return {
+      ...shape,
+      data: {
+        ...shape.data,
+        zodError: error.cause instanceof Error ? error.cause.message : null,
+      },
+    };
+  },
 });
 
 export const router = t.router;
-export const publicProcedure = t.procedure.use(baseMiddleWare);
+export const publicProcedure = t.procedure;
+
+export const middleware = t.middleware;
+export const mergeRouters = t.mergeRouters;

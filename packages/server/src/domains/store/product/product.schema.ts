@@ -1,14 +1,12 @@
 import { z } from "zod";
-import { purchaseItemSchema } from "../../purchase/purchase_item/purchase_item.schema";
 
-export const productSchema: z.ZodSchema = z.object({
-  productId: z.number(),
-  name: z.string(),
-  price: z.number(),
-  purchases: purchaseItemSchema.array(),
-  store: z.string(),
-  storeId: z.number(),
-  createdAt: z.date(),
+export const productSchema = z.object({
+  productId: z.number().optional(),
+  name: z.string().min(1, "Product name is required"),
+  price: z.number().min(0, "Price must be positive"),
+  storeId: z.string().uuid(),
+
+  createdAt: z.date().optional(),
   updatedAt: z.date().optional(),
 });
 

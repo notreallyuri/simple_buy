@@ -6,7 +6,7 @@ export const purchaseSchema: z.ZodSchema = z.object({
   purchaseId: z.string().uuid(),
   byUser: userSchema,
   userId: z.string(),
-  purchaseItems: purchaseItemSchema.array(),
+  purchaseItems: z.array(purchaseItemSchema),
   createdAt: z.date(),
 });
 
