@@ -1,0 +1,22 @@
+{
+  "name": "@package/server",
+  "version": "0.0.1",
+  "dependencies": {
+    "@fastify/cors": "^10.0.2",
+    "@prisma/client": "6.3.1",
+    "@trpc/client": "^10.45.2",
+    "@trpc/server": "^10.45.2",
+    "bcryptjs": "^3.0.0",
+    "fastify": "^5.2.1",
+    "fastify-type-provider-zod": "^4.0.2",
+    "postgres": "^3.4.5",
+    "prisma": "^6.3.1"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  }
+}
