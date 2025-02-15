@@ -11,11 +11,20 @@ export const userSchema = z.object({
   age: z.number().min(0, "Age must be positive"),
   phone: z.string().min(1, "Phone is required"),
   bornAt: z.date(),
-  Purchases: z.array(purchaseSchema).optional(),
+
   createdAt: z.date().optional(),
   updatedAt: z.date().optional(),
 });
 
-export type userType = Omit<z.infer<typeof userSchema>, "Purchases"> & {
+export const userSchemaWithRelations = userSchema.extend({
+  Purchases: z.array(purchaseSchema).optional(),
+});
+
+export type userType = z.infer<typeof userSchema>;
+
+export type userWithRelationType = Omit<
+  z.infer<typeof userSchemaWithRelations>,
+  "Purchases"
+> & {
   Purchases?: Prisma.PurchaseCreateNestedManyWithoutByUserInput;
 };

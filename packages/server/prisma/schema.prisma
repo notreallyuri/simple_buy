@@ -28,32 +28,31 @@ model User {
 }
 
 model Purchase {
-  purchaseId   String         @id @default(uuid())
-  byUser       User           @relation("purchase_user", fields: [userId], references: [id])
-  PurchaseItem PurchaseItem[]
-  userId       String
+  purchaseId       String            @id @default(uuid())
+  byUser           User              @relation("purchase_user", fields: [userId], references: [id])
+  PurchaseProducts PurchaseProduct[]
+  userId           String
 
   createdAt DateTime @default(now())
 }
 
-model PurchaseItem {
+model PurchaseProduct {
   id         Int      @id @default(autoincrement())
   purchase   Purchase @relation(fields: [purchaseId], references: [purchaseId])
   product    Product  @relation(fields: [productId], references: [productId])
   productId  Int
   purchaseId String
-  updatedAt  DateTime @updatedAt
   createdAt  DateTime @default(now())
 }
 
 model Product {
-  productId Int            @id @default(autoincrement())
+  productId Int               @id @default(autoincrement())
   name      String
   price     Float
-  purchases PurchaseItem[]
-  createdAt DateTime       @default(now())
-  updatedAt DateTime       @updatedAt
-  Store     Store          @relation("product_store", fields: [storeId], references: [id])
+  purchaseItems PurchaseProduct[]
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
+  Store     Store             @relation("product_store", fields: [storeId], references: [id])
   storeId   String
 }
 
