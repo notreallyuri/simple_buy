@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { purchaseSchema } from "../purchase.schema";
-import { productSchema } from "../../store/product/product.schema";
+import { productSchema } from "../../../store/product/product.schema";
 
 export const purchaseItemSchema: z.ZodSchema = z.object({
   id: z.number(),

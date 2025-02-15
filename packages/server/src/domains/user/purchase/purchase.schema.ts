@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { userSchema } from "../user/user.schema";
+import { userSchema } from "../user.schema";
 import { purchaseItemSchema } from "./purchase_item/purchase_item.schema";
 
 export const purchaseSchema: z.ZodSchema = z.object({

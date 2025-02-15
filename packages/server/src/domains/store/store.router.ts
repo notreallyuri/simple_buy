@@ -2,6 +2,7 @@ import z from "zod";
 import { router, publicProcedure } from "@/libs/trpc";
 import { storeSchema } from "./store.schema";
 import { storeService } from "./store.service";
+import { productRouter } from "./product/product.router";
 
 export const storeRouter = router({
   create: publicProcedure.input(storeSchema).mutation(async ({ input }) => {
@@ -49,4 +50,6 @@ export const storeRouter = router({
         message: "✅ Store deleted successfully!",
       };
     }),
+
+  products: productRouter,
 });

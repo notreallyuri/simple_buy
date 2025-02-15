@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { purchaseSchema } from "../purchase/purchase.schema";
+import { purchaseSchema } from "./purchase/purchase.schema";
 import { Prisma } from "@prisma/client";
 
 export const userSchema = z.object({

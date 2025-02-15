@@ -6,12 +6,10 @@ import { userRouter } from "@/domains/user/user.router";
 import { fastifyTRPCPlugin } from "@trpc/server/adapters/fastify";
 import { createContext } from "@/libs/context";
 import { storeRouter } from "./domains/store/store.router";
-import { productRouter } from "./domains/store/product/product.router";
 
 const appRouter = router({
   user: userRouter,
   store: storeRouter,
-  product: productRouter,
 });
 
 // Only development, if you plan to use this to build something
