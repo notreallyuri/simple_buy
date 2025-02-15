@@ -1,10 +1,10 @@
 import z from "zod";
-import { router, publicProcedure } from "@/libs/trpc";
+import { router, p } from "@/libs/trpc";
 import { userSchema } from "./user.schema";
 import { userService } from "./user.service";
 
 export const userRouter = router({
-  create: publicProcedure.input(userSchema).mutation(async ({ input }) => {
+  create: p.input(userSchema).mutation(async ({ input }) => {
     const user = await userService.create(input);
 
     return {
@@ -13,7 +13,7 @@ export const userRouter = router({
     };
   }),
 
-  getById: publicProcedure
+  getById: p
     .input(z.object({ id: z.string().uuid() }))
     .query(async ({ input }) => {
       const user = await userService.findById(input.id);
@@ -23,15 +23,15 @@ export const userRouter = router({
       return { user };
     }),
 
-  getAll: publicProcedure.query(async () => {
+  getAll: p.query(async () => {
     const users = await userService.findAll();
     return { users };
   }),
 
-  update: publicProcedure
+  update: p
     .input(z.object({ id: z.string().uuid(), data: userSchema.partial() }))
     .mutation(async ({ input }) => {
-      const user = await userService.udpate(input.id, input.data);
+      const user = await userService.update(input.id, input.data);
 
       return {
         message: "✅ User updated successfully!",
@@ -39,7 +39,7 @@ export const userRouter = router({
       };
     }),
 
-  delete: publicProcedure
+  delete: p
     .input(z.object({ id: z.string().uuid() }))
     .mutation(async ({ input }) => {
       await userService.delete(input.id);

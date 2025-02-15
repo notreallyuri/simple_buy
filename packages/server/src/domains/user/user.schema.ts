@@ -26,5 +26,5 @@ export type userWithRelationType = Omit<
   z.infer<typeof userSchemaWithRelations>,
   "Purchases"
 > & {
-  Purchases?: Prisma.PurchaseCreateNestedManyWithoutByUserInput;
+  Purchases: Prisma.PurchaseCreateNestedManyWithoutByUserInput;
 };

@@ -1,10 +1,10 @@
 import z from "zod";
-import { router, publicProcedure } from "@/libs/trpc";
+import { router, p } from "@/libs/trpc";
 import { productSchema } from "./product.schema";
 import { productService } from "./product.service";
 
 export const productRouter = router({
-  create: publicProcedure.input(productSchema).mutation(async ({ input }) => {
+  create: p.input(productSchema).mutation(async ({ input }) => {
     const product = await productService.create(input);
 
     return {
@@ -13,7 +13,7 @@ export const productRouter = router({
     };
   }),
 
-  getById: publicProcedure
+  getById: p
     .input(z.object({ productId: z.number() }))
     .mutation(async ({ input }) => {
       const product = await productService.findById(input.productId);
@@ -23,13 +23,13 @@ export const productRouter = router({
       return { product };
     }),
 
-  getAll: publicProcedure.query(async () => {
+  getAll: p.query(async () => {
     const products = await productService.findAll();
 
     return { products };
   }),
 
-  update: publicProcedure
+  update: p
     .input(z.object({ productId: z.number(), data: productSchema }))
     .mutation(async ({ input }) => {
       const product = await productService.update(input.productId, input.data);
@@ -40,7 +40,7 @@ export const productRouter = router({
       };
     }),
 
-  delete: publicProcedure
+  delete: p
     .input(z.object({ id: z.number() }))
     .mutation(async ({ input }) => {
       await productService.delete(input.id);

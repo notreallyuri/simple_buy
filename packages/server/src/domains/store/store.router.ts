@@ -1,11 +1,11 @@
 import z from "zod";
-import { router, publicProcedure } from "@/libs/trpc";
+import { router, p } from "@/libs/trpc";
 import { storeSchema } from "./store.schema";
 import { storeService } from "./store.service";
 import { productRouter } from "./product/product.router";
 
 export const storeRouter = router({
-  create: publicProcedure.input(storeSchema).mutation(async ({ input }) => {
+  create: p.input(storeSchema).mutation(async ({ input }) => {
     const store = await storeService.create(input);
 
     return {
@@ -14,7 +14,7 @@ export const storeRouter = router({
     };
   }),
 
-  getById: publicProcedure
+  getById: p
     .input(z.object({ id: z.string().uuid() }))
     .mutation(async ({ input }) => {
       const store = await storeService.findById(input.id);
@@ -24,13 +24,13 @@ export const storeRouter = router({
       return { store };
     }),
 
-  getAll: publicProcedure.query(async () => {
+  getAll: p.query(async () => {
     const stores = await storeService.findAll();
 
     return { stores };
   }),
 
-  update: publicProcedure
+  update: p
     .input(z.object({ id: z.string().uuid(), data: storeSchema }))
     .mutation(async ({ input }) => {
       const store = await storeService.update(input.id, input.data);
@@ -41,7 +41,7 @@ export const storeRouter = router({
       };
     }),
 
-  delete: publicProcedure
+  delete: p
     .input(z.object({ id: z.string().uuid() }))
     .mutation(async ({ input }) => {
       await storeService.delete(input.id);

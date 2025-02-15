@@ -46,14 +46,14 @@ model PurchaseProduct {
 }
 
 model Product {
-  productId Int               @id @default(autoincrement())
-  name      String
-  price     Float
+  productId     Int               @id @default(autoincrement())
+  name          String
+  price         Float
   purchaseItems PurchaseProduct[]
-  createdAt DateTime          @default(now())
-  updatedAt DateTime          @updatedAt
-  Store     Store             @relation("product_store", fields: [storeId], references: [id])
-  storeId   String
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+  Store         Store             @relation("product_store", fields: [storeId], references: [id])
+  storeId       String
 }
 
 model Store {

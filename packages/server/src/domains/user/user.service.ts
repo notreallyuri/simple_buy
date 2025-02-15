@@ -29,7 +29,7 @@ export const userService = {
     return users;
   },
 
-  async udpate(id: string, data: Partial<userType>) {
+  async update(id: string, data: Partial<userType>) {
     if (data.password) {
       data.password = await hash(data.password, 10);
     }
