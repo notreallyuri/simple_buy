@@ -1,6 +1,6 @@
 {
   "name": "@acme/utils",
   "exports": {
-    "./cn": "./cn.ts"
+    "default": "./index.ts"
   }
 }

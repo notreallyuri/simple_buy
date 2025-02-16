@@ -1,4 +1,4 @@
-import cn from "@acme/utils/cn";
+import { cn } from "@acme/utils";
 import Link from "next/link";
 import { forwardRef } from "react";
 

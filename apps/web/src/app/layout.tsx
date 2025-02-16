@@ -1,6 +1,6 @@
 "use client";
 import type { Metadata } from "next";
-import cn from "@acme/utils/cn";
+import {cn} from "@acme/utils";
 import "./globals.css";
 
 import { trpcClient, trpc } from "@acme/client";

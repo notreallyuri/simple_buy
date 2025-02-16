@@ -1,7 +1,7 @@
 import React, { forwardRef } from "react";
 import { useState } from "react";
 import { Eye, EyeClosed } from "lucide-react";
-import cn from "@acme/utils/cn";
+import { cn } from "@acme/utils";
 
 interface BaseProps {
   label: string;
@@ -72,7 +72,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
               "border-none bg-none p-1 outline-none",
               showPassword ? "text-indigo-400" : "text-gray-300",
               "hover:text-indigo-400/70",
-              error && "-translate-y-2"
+              error && "-translate-y-2",
             )}
             type="button"
             onClick={handleTogglePassword}

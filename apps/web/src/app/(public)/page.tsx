@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { User, Store } from "lucide-react";
 import { inter } from "@/app/layout";
-import cn from "@acme/utils/cn";
+import { cn } from "@acme/utils";
 
 export default function Home() {
   function MyLink({
