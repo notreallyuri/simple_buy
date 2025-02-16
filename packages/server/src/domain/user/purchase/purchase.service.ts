@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@acme/lib";
 import { purchaseSchema, createPurchaseSchema } from "./purchase.schema";
 
 export const purchaseService = {

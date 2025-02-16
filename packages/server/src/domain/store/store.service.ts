@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@acme/lib";
 import { type CreateStoreType, type UpdateStoreType } from "./store.schema";
 
 export const storeService = {

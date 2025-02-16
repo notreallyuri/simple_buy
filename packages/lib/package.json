@@ -1,6 +1,5 @@
 {
-  "name": "@acme/client",
-  "version": "0.0.1",
+  "name": "@acme/lib",
   "exports": {
     "default": "./index.ts"
   }

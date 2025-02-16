@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { router, procedure } from "@/lib/trpc";
+import { router, procedure } from "@acme/lib";
 import { createUserSchema, updateUserSchema } from "./user.schema";
 import { userService } from "./user.service";
 
@@ -29,5 +29,12 @@ export const userRouter = router({
     .input(z.object({ id: z.string() }))
     .query(async ({ input }) => {
       return await userService.getByID(input.id);
+    }),
+
+  login: procedure
+    .input(z.object({ email: z.string().email(), password: z.string().min(8) }))
+    .mutation(async ({ input }) => {
+      const { email, password } = input;
+      
     }),
 });

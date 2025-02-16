@@ -1,16 +1,14 @@
-import { prisma } from "@/lib/prisma";
-import { type CreateUserType, type UpdatedUserType } from "./user.schema";
+import { prisma } from "@acme/lib";
+import { type CreateUserType, type UpdateUserType } from "./user.schema";
 
 export const userService = {
   async create(data: CreateUserType) {
     try {
       const hash = await Bun.password.hash(data.password);
-
       const user = await prisma.user.create({
         data: {
           ...data,
           password: hash,
-
         },
       });
 
@@ -23,7 +21,7 @@ export const userService = {
       return { error: "Failed Creating User" };
     }
   },
-  async update(id: string, data: UpdatedUserType) {
+  async update(id: string, data: UpdateUserType) {
     try {
       const user = await prisma.user.update({
         where: { id },
