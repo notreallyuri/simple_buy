@@ -41,9 +41,11 @@ export function middleware(req: NextRequest) {
   }
 
   if (!authToken) {
-    redirectUrl.pathname = path.startsWith("/user")
-      ? redirectUser_NotAuth
-      : redirectStore_NotAuth;
+    if (path.startsWith("/store/"))
+      redirectUrl.pathname = redirectStore_NotAuth;
+    else if (path.startsWith("/user/"))
+      redirectUrl.pathname = redirectUser_NotAuth;
+    else redirectUrl.pathname = redirectUser_NotAuth;
     return res.redirect(redirectUrl);
   }
 
