@@ -28,7 +28,7 @@ model User {
 }
 
 model Purchase {
-    purchaseId       String            @id @default(uuid())
+    purchaseId       Int               @id @default(autoincrement())
     byUser           User              @relation("purchase_user", fields: [userId], references: [id])
     PurchaseProducts PurchaseProduct[]
     userId           String
@@ -41,7 +41,7 @@ model PurchaseProduct {
     purchase   Purchase @relation(fields: [purchaseId], references: [purchaseId])
     product    Product  @relation(fields: [productId], references: [productId])
     productId  Int
-    purchaseId String
+    purchaseId Int
     createdAt  DateTime @default(now())
 }
 

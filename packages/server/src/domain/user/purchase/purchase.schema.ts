@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const purchaseSchema = z.object({
-  purchaseId: z.string().uuid(),
+  purchaseId: z.number(),
   userId: z.string().uuid(),
   createdAt: z.coerce.date(),
 });

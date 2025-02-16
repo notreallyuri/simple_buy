@@ -17,3 +17,7 @@ export const updateStoreSchema = storeSchema.partial().omit({
   id: true,
   createdAt: true,
 });
+
+export type StoreType = z.infer<typeof storeSchema>;
+export type CreateStoreType = z.infer<typeof createStoreSchema>;
+export type UpdateStoreType = z.infer<typeof updateStoreSchema>;
