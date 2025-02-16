@@ -10,6 +10,7 @@ export const userService = {
         data: {
           ...data,
           password: hash,
+
         },
       });
 

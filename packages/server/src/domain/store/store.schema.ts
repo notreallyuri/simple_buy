@@ -3,6 +3,7 @@ import { z } from "zod";
 export const storeSchema = z.object({
   id: z.string().uuid(),
   name: z.string().min(1),
+  adminId: z.string(),
   createdAt: z.coerce.date(),
   updatedAt: z.coerce.date(),
 });

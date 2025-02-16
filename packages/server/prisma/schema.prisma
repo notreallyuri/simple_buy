@@ -20,7 +20,7 @@ model User {
     email     String     @unique
     name      String
     age       Int
-    phone     String
+    phone     String?
     bornAt    DateTime
     Purchases Purchase[] @relation("purchase_user")
     createdAt DateTime   @default(now())
