@@ -20,8 +20,9 @@
     "postgres": "^3.4.5",
     "prisma": "^6.3.1"
   },
+  "module": "index.ts",
+  "type": "module",
   "devDependencies": {
-    "@types/express": "^5.0.0",
     "@types/bun": "latest"
   },
   "peerDependencies": {
