@@ -19,7 +19,7 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={cn(
-          "min-h-screen w-screen bg-white antialiased",
+          "min-h-screen w-screen bg-zinc-900 text-white antialiased",
           montserrat.className,
         )}
       >
