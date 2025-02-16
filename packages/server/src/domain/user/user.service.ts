@@ -1,4 +1,4 @@
-import { prisma } from "@/libs/prisma";
+import { prisma } from "@/lib/prisma";
 import { userSchema, createUserSchema, updateUserSchema } from "./user.schema";
 
 export const userService = {
