@@ -1,11 +1,15 @@
 {
-  "name": "@package/server",
-  "version": "0.0.1",
+  "name": "@acme/server",
+  "exports": {
+    "default": "./index.ts"
+  },
   "dependencies": {
     "@fastify/cors": "^10.0.2",
     "@fastify/passport": "^3.0.2",
     "@prisma/client": "6.3.1",
+    "@tanstack/react-query": "^5.66.0",
     "@trpc/client": "^10.45.2",
+    "@trpc/react-query": "^10.45.2",
     "@trpc/server": "^10.45.2",
     "bcryptjs": "^3.0.0",
     "fastify": "^5.2.1",

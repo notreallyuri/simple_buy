@@ -1,4 +1,3 @@
-import z from "zod";
 import cors from "@fastify/cors";
 import { fastify } from "@/libs/fastify";
 import { router } from "@/libs/trpc";
