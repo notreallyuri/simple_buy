@@ -1,5 +1,5 @@
 import { initTRPC } from "@trpc/server";
-import { CTX } from "@acme/server";
+import type { CTX } from "@acme/server";
 
 const t = initTRPC.context<CTX>().create();
 

@@ -3,13 +3,13 @@
   "exports": {
     "types": "./dist/server.d.ts",
     "import": "./dist/index.js",
-    "default": "./dist/index.ts"
+    "default": "./dist/index.js"
   },
   "type": "module",
-  "module": "dist/index.js",
   "scripts": {
-    "build": "bunx tsc",
-    "dev": "bun run src/server.ts"
+    "dev": "bun run src/server.ts",
+    "clean": "bunx rimraf dist",
+    "build": "bun run clean && bunx tsc"
   },
   "dependencies": {
     "@fastify/cookie": "^11.0.2"

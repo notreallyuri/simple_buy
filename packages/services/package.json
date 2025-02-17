@@ -1,8 +1,0 @@
-{
-    "name": "@package/services",
-    "version": "0.0.1",
-    "dependencies": {
-      "@prisma/client": "^6.3.1"
-    }
-  }
-  

@@ -9,7 +9,8 @@
 
     "declaration": true,
     "emitDeclarationOnly": true,
-    "outDir": "../dist",
+    "outDir": "./dist",
+    "rootDir": "./src",
 
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
@@ -24,5 +25,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["src"]
+  "include": ["src"],
+  "exclude": ["dist", "node_modules"]
 }
