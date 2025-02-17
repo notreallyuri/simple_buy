@@ -3,7 +3,7 @@ import {
   productSchema,
   createProductSchema,
   updateProductSchema,
-} from "./product.schema";
+} from "@acme/schemas";
 
 export const productService = {
   async create() {},

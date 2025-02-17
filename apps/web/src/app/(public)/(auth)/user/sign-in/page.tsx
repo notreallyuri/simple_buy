@@ -4,6 +4,12 @@ import { Input } from "@/components/inputs";
 import { Button } from "@/components/button";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { trpc } from "@acme/client";
+import { useState } from "react";
+import { TRPCClientErrorLike } from "@trpc/client";
+import { AppRouter } from "@acme/server";
+import { useRouter } from "next/navigation";
+import { setCookie } from "cookies-next";
 
 const loginSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -13,6 +19,15 @@ const loginSchema = z.object({
 type FormData = z.infer<typeof loginSchema>;
 
 export default function SignIn() {
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const router = useRouter();
+
+  const loginMutation = trpc.user.login.useMutation({
+    onError: (err: TRPCClientErrorLike<AppRouter>) => {
+      setErrorMessage(err.message);
+    },
+  });
+
   const {
     register,
     handleSubmit,
@@ -21,8 +36,18 @@ export default function SignIn() {
     resolver: zodResolver(loginSchema),
   });
 
-  const submit = (data: FormData) => {
-    console.log("Form data:", data);
+  const submit = async (data: FormData) => {
+    setErrorMessage("");
+
+    try {
+      const res = await loginMutation.mutateAsync(data);
+      console.log("Login Success:", res);
+      setCookie("token", res.token);
+      router.push(`/user/${res.userId}`);
+    } catch (err) {
+      console.error("Login Failed", err);
+      setErrorMessage(err as string);
+    }
   };
 
   return (
@@ -53,6 +78,9 @@ export default function SignIn() {
           variant="authPrimary"
           type="submit"
         />
+        {errorMessage && (
+          <p className="text-error-400 text-xs">{errorMessage}</p>
+        )}
       </form>
     </>
   );

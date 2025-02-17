@@ -1,0 +1,6 @@
+{
+  "name": "@acme/schemas",
+  "exports": {
+    "default": "./index.ts"
+  }
+}

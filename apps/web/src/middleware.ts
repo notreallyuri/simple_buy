@@ -18,7 +18,7 @@ const publicRoutes: PublicRoute[] = [
   { path: "/store/sign-up", redirect: true },
 ];
 
-const redirect_Auth = "/";
+const redirect_Auth = "/user/[userId]";
 const redirectUser_NotAuth = "/user/sign-in";
 const redirectStore_NotAuth = "/store/sign-in";
 

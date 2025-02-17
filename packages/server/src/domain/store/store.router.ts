@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { router, procedure } from "@acme/lib";
-import { createStoreSchema, updateStoreSchema } from "./store.schema";
+import { createStoreSchema, updateStoreSchema } from "@acme/schemas";
 import { storeService } from "./store.service";
 
 export const storeRouter = router({

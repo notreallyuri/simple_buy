@@ -4,6 +4,7 @@ import cors from "@fastify/cors";
 import { fastifyTRPCPlugin } from "@trpc/server/adapters/fastify";
 import type { FastifyRequest, FastifyReply } from "fastify";
 
+import { fastifyCookie } from "@fastify/cookie";
 import { userRouter } from "./domain/user/user.router";
 import { storeRouter } from "./domain/store/store.router";
 import jwt from "@fastify/jwt";
@@ -13,33 +14,59 @@ const appRouter = router({
   store: storeRouter,
 });
 
-// Development
-fastify.register(cors, { origin: "*" });
-fastify.register(jwt, { secret: process.env.JWT_SECRET || "supersecret" });
+const jwtSecret = process.env.JWT_SECRET;
 
-fastify.decorate(
-  "authenticate",
-  async function (req: FastifyRequest, rep: FastifyReply) {
-    try {
-      await req.jwtVerify<{ userId: string; email: string }>();
-    } catch (err) {
-      rep.status(401).send({ error: "Unauthorized" });
+if (!jwtSecret) {
+  throw new Error("JWT_SECRET environment variable is not defined");
+}
+
+const startServer = async () => {
+  fastify.register(jwt, { secret: jwtSecret });
+  console.log("JWT Secret:", jwtSecret);
+
+  fastify.register(cors, { origin: "*" });
+  fastify.register(fastifyCookie, { secret: jwtSecret });
+
+  fastify.decorate(
+    "authenticate",
+    async function (req: FastifyRequest, rep: FastifyReply) {
+      try {
+        await req.jwtVerify<{ userId: string; email: string }>();
+      } catch (err) {
+        rep.status(401).send({ error: "Unauthorized" });
+      }
     }
-  }
-);
+  );
 
-await fastify.register(fastifyTRPCPlugin, {
-  prefix: "/trpc",
-  trpcOptions: { router: appRouter },
-});
+  const createContext = ({
+    req,
+    res,
+  }: {
+    req: FastifyRequest;
+    res: FastifyReply;
+  }) => {
+    return { req, res };
+  };
 
-fastify.listen({ port: 3333 }, (err) => {
-  if (err) {
-    console.error(err);
-    process.exit(1);
-  }
+  await fastify.register(fastifyTRPCPlugin, {
+    prefix: "/trpc",
+    trpcOptions: { router: appRouter, createContext },
+  });
 
-  console.log("Server running at http://localhost:3333");
-});
+  fastify.listen({ port: 3333 }, (err) => {
+    if (err) {
+      console.error(err);
+      process.exit(1);
+    }
+
+    console.log("Server running at http://localhost:3333");
+  });
+};
+
+startServer();
 
 export type AppRouter = typeof appRouter;
+export type CTX = {
+  req: FastifyRequest;
+  res: FastifyReply;
+};

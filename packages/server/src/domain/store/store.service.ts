@@ -1,5 +1,5 @@
 import { prisma } from "@acme/lib";
-import { type CreateStoreType, type UpdateStoreType } from "./store.schema";
+import { type CreateStoreType, type UpdateStoreType } from "@acme/schemas";
 
 export const storeService = {
   async create(data: CreateStoreType) {

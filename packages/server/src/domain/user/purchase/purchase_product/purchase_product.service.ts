@@ -2,7 +2,7 @@ import { prisma } from "@acme/lib";
 import {
   purchaseProductSchema,
   createPurchaseProductSchema,
-} from "./purchase_product.schema";
+} from "@acme/schemas";
 
 export const purchaseProductService = {
   async create() {},

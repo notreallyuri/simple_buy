@@ -21,7 +21,6 @@ model User {
     name      String
     age       Int
     phone     String?
-    Store     Store?     @relation("store_user")
     bornAt    DateTime
     Purchases Purchase[] @relation("purchase_user")
     createdAt DateTime   @default(now())
@@ -31,11 +30,9 @@ model User {
 model Store {
     id        String    @id @default(uuid())
     name      String    @unique
-    admin     User      @relation("store_user", fields: [adminId], references: [id])
     products  Product[] @relation("product_store")
     createdAt DateTime  @default(now())
     updatedAt DateTime  @updatedAt
-    adminId   String    @unique
 }
 
 model Purchase {

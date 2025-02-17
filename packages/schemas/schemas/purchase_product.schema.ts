@@ -11,3 +11,8 @@ export const createPurchaseProductSchema = purchaseProductSchema.omit({
   id: true,
   createdAt: true,
 });
+
+export type PurchaseProductType = z.infer<typeof purchaseProductSchema>;
+export type CreatePurchaseProductType = z.infer<
+  typeof createPurchaseProductSchema
+>;

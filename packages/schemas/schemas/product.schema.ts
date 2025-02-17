@@ -19,3 +19,7 @@ export const updateProductSchema = productSchema.partial().omit({
   productId: true,
   createdAt: true,
 });
+
+export type ProductType = z.infer<typeof productSchema>;
+export type CreateProductType = z.infer<typeof createProductSchema>;
+export type UpdateProductType = z.infer<typeof updateProductSchema>;

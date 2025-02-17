@@ -1,6 +1,5 @@
 "use client";
-import type { Metadata } from "next";
-import {cn} from "@acme/utils";
+import { cn } from "@acme/utils";
 import "./globals.css";
 
 import { trpcClient, trpc } from "@acme/client";
@@ -10,16 +9,20 @@ import { Inter } from "next/font/google";
 import { useState } from "react";
 
 export const inter = Inter({ subsets: ["latin"] });
-export const metadata: Metadata = {
-  title: "Simple Buy",
-};
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [queryClient] = useState(() => new QueryClient());
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: { staleTime: 5 * 1000, refetchOnWindowFocus: false },
+        },
+      }),
+  );
 
   return (
     <html lang="en">

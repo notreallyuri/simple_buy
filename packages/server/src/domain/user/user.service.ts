@@ -1,5 +1,5 @@
 import { prisma } from "@acme/lib";
-import { type CreateUserType, type UpdateUserType } from "./user.schema";
+import { type CreateUserType, type UpdateUserType } from "@acme/schemas";
 
 export const userService = {
   async create(data: CreateUserType) {
