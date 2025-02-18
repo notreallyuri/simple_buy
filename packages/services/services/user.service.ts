@@ -1,24 +1,17 @@
 import { prisma } from "@acme/lib";
-import { type CreateUserType, type UpdateUserType } from "@acme/schemas";
+import type { CreateUserType, UpdateUserType } from "@acme/schemas";
 
 export const userService = {
   async create(data: CreateUserType) {
+    const { email, password, ...rest } = data;
+    const hash = await Bun.password.hash(password);
     try {
-      const hash = await Bun.password.hash(data.password);
-      const user = await prisma.user.create({
-        data: {
-          ...data,
-          password: hash,
-        },
+      return await prisma.user.create({
+        data: { email, password: hash, ...rest },
       });
-
-      return {
-        message: "User Created Successfully",
-        user,
-      };
     } catch (err) {
-      console.log("Error Creating User:", err);
-      return { error: "Failed Creating User" };
+      console.error("Error Creating user:", err);
+      throw err;
     }
   },
   async update(id: string, data: UpdateUserType) {

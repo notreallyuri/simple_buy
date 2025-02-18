@@ -1,13 +1,14 @@
+import cors from "@fastify/cors";
 import { router } from "@acme/lib";
 import { fastify } from "@acme/lib";
-import cors from "@fastify/cors";
-import { fastifyTRPCPlugin } from "@trpc/server/adapters/fastify";
-import type { FastifyRequest, FastifyReply } from "fastify";
 
-import { fastifyCookie } from "@fastify/cookie";
-import { userRouter } from "./domain/user/user.router";
-import { storeRouter } from "./domain/store/store.router";
 import jwt from "@fastify/jwt";
+import { fastifyCookie } from "@fastify/cookie";
+import type { FastifyRequest, FastifyReply } from "fastify";
+import { fastifyTRPCPlugin } from "@trpc/server/adapters/fastify";
+
+import { userRouter } from "./routes/user.router";
+import { storeRouter } from "./routes/store.router";
 
 const appRouter = router({
   user: userRouter,

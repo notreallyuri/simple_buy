@@ -1,10 +1,6 @@
 {
   "name": "@acme/server",
-  "exports": {
-    "types": "./dist/server.d.ts",
-    "import": "./dist/index.js",
-    "default": "./dist/index.js"
-  },
+  "main": "./index.d.ts",
   "type": "module",
   "scripts": {
     "dev": "bun run src/server.ts",

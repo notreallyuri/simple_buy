@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { router, procedure } from "@acme/lib";
 import { createStoreSchema, updateStoreSchema } from "@acme/schemas";
-import { storeService } from "./store.service";
+import { storeService } from "@acme/services";
 
 export const storeRouter = router({
   create: procedure.input(createStoreSchema).mutation(async ({ input }) => {

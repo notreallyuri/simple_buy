@@ -23,30 +23,36 @@ export default function SignUp() {
     resolver: zodResolver(createUserSchema),
   });
 
-  const signInMutation = trpc.user.create.useMutation({
+  const signUpMutation = trpc.user.create.useMutation({
     onError: (err: TRPCClientErrorLike<AppRouter>) => {
       setErrorMessage(err.message);
     },
   });
 
-  const handleForm = async (data: CreateUserType) => {
-    try {
-      const res = await signInMutation.mutateAsync(data);
-      console.log("Login Success:", res);
+  const submit = async (data: CreateUserType) => {
+    const res = await signUpMutation.mutateAsync(data);
+    console.log("Login Success:", res.user);
 
-      router.push(`/user/${res}`);
-    } catch (err) {
-      setErrorMessage(err as string);
-    }
+    setCookie("token", res.token, {
+      httpOnly: true,
+      maxAge: 60 * 60 * 24 * 7,
+    });
+
+    router.push(`/${res.user.id}`);
   };
 
   return (
     <>
       <form
-        onSubmit={handleSubmit(handleForm)}
+        onSubmit={handleSubmit(submit)}
         className="flex h-full w-full flex-col gap-4"
       >
         <h1 className="mb-4 text-4xl font-semibold">Sign up</h1>
+        <Input
+          label="Name"
+          {...register("name")}
+          error={errors.name?.message}
+        />
         <Input
           label="Username"
           {...register("username")}
@@ -63,14 +69,19 @@ export default function SignUp() {
           error={errors.email?.message}
         />
         <Input
-          label="Name"
-          {...register("name")}
-          error={errors.name?.message}
+          label="Phone"
+          {...register("phone")}
+          error={errors.phone?.message}
         />
-        <Input
-          label="Age"
-          {...register("age")}
-          error={errors.age?.message}
+        <Input label="Age" {...register("age")} error={errors.age?.message} />
+        {errorMessage && (
+          <p className="py-2 font-medium text-red-500">{errorMessage}</p>
+        )}
+        <Button
+          label="Sign up"
+          className="mt-auto"
+          variant="authPrimary"
+          type="submit"
         />
       </form>
     </>

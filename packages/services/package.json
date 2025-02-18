@@ -1,0 +1,6 @@
+{
+    "name": "@acme/services",
+    "exports": {
+        "default": "./index.ts"
+    }
+}

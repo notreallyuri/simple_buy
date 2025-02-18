@@ -21,7 +21,6 @@ type FormData = z.infer<typeof loginSchema>;
 export default function SignIn() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const router = useRouter();
-
   const loginMutation = trpc.user.login.useMutation({
     onError: (err: TRPCClientErrorLike<AppRouter>) => {
       setErrorMessage(err.message);
@@ -41,11 +40,14 @@ export default function SignIn() {
 
     try {
       const res = await loginMutation.mutateAsync(data);
+
       console.log("Login Success:", res);
+
       setCookie("token", res.token, {
         httpOnly: true,
         maxAge: 60 * 60 * 24 * 7,
       });
+
       router.push(`/user/${res.userId}`);
     } catch (err) {
       console.error("Login Failed", err);

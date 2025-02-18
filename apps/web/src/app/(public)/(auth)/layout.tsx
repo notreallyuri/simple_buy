@@ -2,6 +2,10 @@ import { cn } from "@acme/utils";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
+import { metadata } from "../layout";
+
+metadata.title = "Teste";
+
 export default function AuthLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
