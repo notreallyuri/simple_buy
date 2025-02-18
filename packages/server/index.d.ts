@@ -1,1 +1,1 @@
-export type { AppRouter, CTX } from "./src/server";
+export type { AppRouter, CTX } from "./server";

@@ -3,7 +3,7 @@
   "main": "./index.d.ts",
   "type": "module",
   "scripts": {
-    "dev": "bun run src/server.ts",
+    "dev": "bun run server.ts",
     "clean": "bunx rimraf dist",
     "build": "bun run clean && bunx tsc"
   },
