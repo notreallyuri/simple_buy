@@ -7,8 +7,7 @@ import { fastifyCookie } from "@fastify/cookie";
 import type { FastifyRequest, FastifyReply } from "fastify";
 import { fastifyTRPCPlugin } from "@trpc/server/adapters/fastify";
 
-import { userRouter } from "./routes/user.router";
-import { storeRouter } from "./routes/store.router";
+import { userRouter, storeRouter } from "@acme/routes";
 
 const appRouter = router({
   user: userRouter,

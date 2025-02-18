@@ -1,25 +1,22 @@
 "use client";
 import { createUserSchema, type CreateUserType } from "@acme/schemas";
-import { useForm } from "react-hook-form";
+import { useForm, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { setCookie } from "cookies-next";
 import { trpc } from "@acme/client";
-import { Input } from "@/components/inputs";
 import { Button } from "@/components/button";
 import { useState } from "react";
 import { TRPCClientErrorLike } from "@trpc/client";
 import type { AppRouter } from "@acme/server";
 import { useRouter } from "next/navigation";
+import { Steps } from "@/components/(auth)/user-up/steps";
 
 export default function SignUp() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [step, setStep] = useState<number>(1);
   const router = useRouter();
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<CreateUserType>({
+  const methods = useForm<CreateUserType>({
     resolver: zodResolver(createUserSchema),
   });
 
@@ -28,6 +25,14 @@ export default function SignUp() {
       setErrorMessage(err.message);
     },
   });
+
+  const handleNext = () => {
+    if (step < 2) setStep((prev) => prev + 1);
+  };
+
+  const handleBack = () => {
+    if (step > 1) setStep((prev) => prev - 1);
+  };
 
   const submit = async (data: CreateUserType) => {
     const res = await signUpMutation.mutateAsync(data);
@@ -43,47 +48,39 @@ export default function SignUp() {
 
   return (
     <>
-      <form
-        onSubmit={handleSubmit(submit)}
-        className="flex h-full w-full flex-col gap-4"
-      >
-        <h1 className="mb-4 text-4xl font-semibold">Sign up</h1>
-        <Input
-          label="Name"
-          {...register("name")}
-          error={errors.name?.message}
-        />
-        <Input
-          label="Username"
-          {...register("username")}
-          error={errors.username?.message}
-        />
-        <Input
-          label="Password"
-          {...register("password")}
-          error={errors.password?.message}
-        />
-        <Input
-          label="Email"
-          {...register("email")}
-          error={errors.email?.message}
-        />
-        <Input
-          label="Phone"
-          {...register("phone")}
-          error={errors.phone?.message}
-        />
-        <Input label="Age" {...register("age")} error={errors.age?.message} />
-        {errorMessage && (
-          <p className="py-2 font-medium text-red-500">{errorMessage}</p>
-        )}
-        <Button
-          label="Sign up"
-          className="mt-auto"
-          variant="authPrimary"
-          type="submit"
-        />
-      </form>
+      <FormProvider {...methods}>
+        <form
+          onSubmit={methods.handleSubmit(submit)}
+          className="flex h-full w-full flex-col gap-4"
+        >
+          <h1 className="mb-2 text-4xl font-semibold">Sign up</h1>
+          <Steps current={step} />
+          {errorMessage && (
+            <p className="py-2 font-medium text-red-500">{errorMessage}</p>
+          )}
+          <div className="flex gap-4">
+            {step > 1 && (
+              <Button
+                label="Back"
+                className=""
+                variant="authPrimary"
+                type="button"
+                onClick={() => handleBack()}
+              />
+            )}
+            {step === 2 ? (
+              <Button label="Send" variant="authPrimary" type="submit" />
+            ) : (
+              <Button
+                label="Next"
+                variant="authPrimary"
+                type="button"
+                onClick={() => handleNext()}
+              />
+            )}
+          </div>
+        </form>
+      </FormProvider>
     </>
   );
 }

@@ -49,7 +49,7 @@ export const nascimentoFormat = (date: string | Date): string => {
   return `${year}-${month}-${day}`;
 };
 
-export const unformat = (text: string) => text.replace(/\D/g, "");
+export const toNumber = (text: string) => Number(text.replace(/\D/g, ""));
 
 export const capitalize = (text: string) =>
   text.charAt(0).toUpperCase() + text.toLocaleLowerCase().slice(1);
