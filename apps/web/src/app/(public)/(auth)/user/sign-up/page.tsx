@@ -59,7 +59,7 @@ export default function SignUp() {
             <p className="py-2 font-medium text-red-500">{errorMessage}</p>
           )}
           <div className="flex gap-4">
-            {step > 1 && (
+            {step === 2 && (
               <Button
                 label="Back"
                 className=""
@@ -75,7 +75,10 @@ export default function SignUp() {
                 label="Next"
                 variant="authPrimary"
                 type="button"
-                onClick={() => handleNext()}
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleNext();
+                }}
               />
             )}
           </div>
