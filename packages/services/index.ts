@@ -1,5 +1,5 @@
-export { userService } from "./services/user.service";
-export { storeService } from "./services/store.service";
-export { purchaseService } from "./services/purchase.service";
-export { productService } from "./services/product.service";
-export { purchaseProductService } from "./services/purchase_product.service";
+export { userService } from "./src/user.service";
+export { storeService } from "./src/store.service";
+export { purchaseService } from "./src/purchase.service";
+export { productService } from "./src/product.service";
+export { purchaseProductService } from "./src/purchase_product.service";

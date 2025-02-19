@@ -22,7 +22,7 @@ if (!jwtSecret) {
 
 const startServer = async () => {
   fastify.register(jwt, { secret: jwtSecret });
-  console.log("JWT Secret:", jwtSecret);
+  console.log("✅ JWT Registered");
 
   fastify.register(cors, { origin: "*" });
   fastify.register(fastifyCookie, { secret: jwtSecret });
@@ -59,7 +59,7 @@ const startServer = async () => {
       process.exit(1);
     }
 
-    console.log("Server running at http://localhost:3333");
+    console.log("✅ Server running at http://localhost:3333");
   });
 };
 

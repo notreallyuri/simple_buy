@@ -1,14 +1,6 @@
-import { createUserSchema, type CreateUserType } from "@acme/schemas";
 import { useFormContext } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { setCookie } from "cookies-next";
-import { trpc } from "@acme/client";
 import { Input } from "@/components/inputs";
-import { Button } from "@/components/button";
-import { useState } from "react";
-import { TRPCClientErrorLike } from "@trpc/client";
-import type { AppRouter } from "@acme/server";
-import { useRouter } from "next/navigation";
+
 import { toNumber } from "@acme/utils";
 
 function Step_1() {
@@ -36,6 +28,8 @@ function Step_1() {
         label="Password"
         {...register("password")}
         error={errors.password?.message?.toString()}
+        type="password"
+        showPasswordToggle
       />
       <Input
         label="Phone"

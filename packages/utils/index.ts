@@ -1,7 +1,7 @@
-export { cn } from "./utils/cn";
+export { cn } from "./src/cn";
 export {
   toNumber,
   formatDateDefault,
   formatDateTime,
   formatPhone,
-} from "./utils/masks";
+} from "./src/masks";

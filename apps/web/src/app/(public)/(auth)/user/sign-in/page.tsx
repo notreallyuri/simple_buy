@@ -1,5 +1,5 @@
 "use client";
-import z from "zod";
+import { z } from "zod";
 import { Input } from "@/components/inputs";
 import { Button } from "@/components/button";
 import { useForm } from "react-hook-form";
@@ -9,7 +9,6 @@ import { useState } from "react";
 import { TRPCClientErrorLike } from "@trpc/client";
 import type { AppRouter } from "@acme/server";
 import { useRouter } from "next/navigation";
-import { setCookie } from "cookies-next";
 
 const loginSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -36,21 +35,18 @@ export default function SignIn() {
   });
 
   const submit = async (data: FormData) => {
-    setErrorMessage("");
-
     try {
       const res = await loginMutation.mutateAsync(data);
-      setCookie("token", res.token, {
-        httpOnly: true,
-        maxAge: 60 * 60 * 24 * 7,
-      });
       console.log("Login Success:", res);
       router.push(`/user/${res.userId}`);
     } catch (err) {
       console.error("Login Failed", err);
-      setErrorMessage(err as string);
+      if (err instanceof Error) setErrorMessage(err.message);
+      else setErrorMessage("An unexpected error ocurred");
     }
   };
+
+  console.log("errorMessage:", errorMessage);
 
   return (
     <>
@@ -74,15 +70,15 @@ export default function SignIn() {
           error={errors.password?.message}
           showPasswordToggle
         />
+        {errorMessage && (
+          <p className="text-error-400 font-medium text-sm">{errorMessage}</p>
+        )}
         <Button
           label="Sign in"
           className="mt-auto"
           variant="authPrimary"
           type="submit"
         />
-        {errorMessage && (
-          <p className="text-error-400 text-xs">{errorMessage}</p>
-        )}
       </form>
     </>
   );

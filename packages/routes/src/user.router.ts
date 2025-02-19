@@ -2,12 +2,14 @@ import { z } from "zod";
 import { router, procedure, fastify } from "@acme/lib";
 import { createUserSchema, updateUserSchema } from "@acme/schemas";
 import { userService } from "@acme/services";
+import fastifyCookie from "@fastify/cookie";
 import { TRPCError } from "@trpc/server";
 import { prisma } from "@acme/lib";
 
 export const userRouter = router({
-  create: procedure.input(createUserSchema).mutation(async ({ input }) => {
+  create: procedure.input(createUserSchema).mutation(async ({ input, ctx }) => {
     const { email } = input;
+    const { res } = ctx;
 
     const existingUser = await prisma.user.findUnique({ where: { email } });
 
@@ -22,7 +24,15 @@ export const userRouter = router({
 
       const token = fastify.jwt.sign({ email: input.email, userId: user.id });
 
-      return { user, token };
+      res.setCookie("authToken", token, {
+        path: "/",
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
+        maxAge: 60 * 60 * 24 * 7,
+      });
+
+      return { user };
     } catch (error) {
       console.error("Failed to create user:", error);
       throw new TRPCError({
@@ -57,9 +67,10 @@ export const userRouter = router({
 
   login: procedure
     .input(z.object({ email: z.string().email(), password: z.string().min(8) }))
-    .mutation(async ({ input }) => {
+    .mutation(async ({ input, ctx }) => {
       try {
         const { email, password } = input;
+        const { res } = ctx;
 
         const user = await prisma.user.findUnique({ where: { email } });
         if (!user) {
@@ -79,12 +90,25 @@ export const userRouter = router({
 
         const token = fastify.jwt.sign({ email: user.email });
 
-        return { token, userId: user.id, email: user.email };
+        res.setCookie("authToken", token, {
+          path: "/",
+          httpOnly: true,
+          secure: process.env.NODE_ENV === "production",
+          sameSite: "strict",
+          maxAge: 60 * 60 * 24 * 7,
+        });
+
+        return { userId: user.id, email: user.email };
       } catch (error) {
         console.error("Login error:", error);
+
+        if (error instanceof TRPCError) {
+          throw error;
+        }
+
         throw new TRPCError({
           code: "INTERNAL_SERVER_ERROR",
-          message: "Login failed",
+          message: "Unexpected error during login",
         });
       }
     }),

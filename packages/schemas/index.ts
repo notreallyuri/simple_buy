@@ -5,7 +5,7 @@ export {
   type CreateStoreType,
   updateStoreSchema,
   type UpdateStoreType,
-} from "./schemas/store.schema";
+} from "./src/store.schema";
 
 export {
   userSchema,
@@ -14,7 +14,7 @@ export {
   type CreateUserType,
   updateUserSchema,
   type UpdateUserType,
-} from "./schemas/user.schema";
+} from "./src/user.schema";
 
 export {
   productSchema,
@@ -23,18 +23,18 @@ export {
   type CreateProductType,
   updateProductSchema,
   type UpdateProductType,
-} from "./schemas/product.schema";
+} from "./src/product.schema";
 
 export {
   purchaseSchema,
   type PurchaseType,
   createPurchaseSchema,
   type CreatePurchaseType,
-} from "./schemas/purchase.schema";
+} from "./src/purchase.schema";
 
 export {
   purchaseProductSchema,
   type PurchaseProductType,
   createPurchaseProductSchema,
   type CreatePurchaseProductType,
-} from "./schemas/purchase_product.schema";
+} from "./src/purchase_product.schema";

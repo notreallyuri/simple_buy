@@ -1,3 +1,3 @@
-export { router, procedure } from "./lib/trpc";
-export { fastify } from "./lib/fastity";
-export { prisma } from "./lib/prisma";
+export { router, procedure } from "./src/trpc";
+export { fastify } from "./src/fastity";
+export { prisma } from "./src/prisma";

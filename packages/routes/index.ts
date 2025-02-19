@@ -1,6 +1,6 @@
-export { } from './routes/product.router'
-export { userRouter} from './routes/user.router'
-export { storeRouter} from './routes/store.router'
-export {} from './routes/purchase.router'
-export {} from './routes/purchase_product.router'
+export { } from './src/product.router'
+export { userRouter} from './src/user.router'
+export { storeRouter} from './src/store.router'
+export {} from './src/purchase.router'
+export {} from './src/purchase_product.router'
 

@@ -8,6 +8,8 @@
     "build": "bun run clean && bunx tsc"
   },
   "dependencies": {
-    "@fastify/cookie": "^11.0.2"
+    "@fastify/cookie": "^11.0.2",
+    "@types/jsonwebtoken": "^9.0.8",
+    "jsonwebtoken": "^9.0.2"
   }
 }

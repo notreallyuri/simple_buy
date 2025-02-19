@@ -2,7 +2,6 @@
 import { createUserSchema, type CreateUserType } from "@acme/schemas";
 import { useForm, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { setCookie } from "cookies-next";
 import { trpc } from "@acme/client";
 import { Button } from "@/components/button";
 import { useState } from "react";
@@ -38,11 +37,6 @@ export default function SignUp() {
     const res = await signUpMutation.mutateAsync(data);
     console.log("Login Success:", res.user);
 
-    setCookie("token", res.token, {
-      httpOnly: true,
-      maxAge: 60 * 60 * 24 * 7,
-    });
-
     router.push(`/${res.user.id}`);
   };
 
@@ -56,7 +50,7 @@ export default function SignUp() {
           <h1 className="mb-2 text-4xl font-semibold">Sign up</h1>
           <Steps current={step} />
           {errorMessage && (
-            <p className="py-2 font-medium text-red-500">{errorMessage}</p>
+            <p className="text-sm font-medium text-red-400">{errorMessage}</p>
           )}
           <div className="flex gap-4">
             {step === 2 && (

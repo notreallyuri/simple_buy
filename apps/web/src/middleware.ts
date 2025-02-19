@@ -4,6 +4,8 @@ import {
   type NextRequest,
 } from "next/server";
 
+import jwt from "jsonwebtoken";
+
 type PublicRoute = {
   path: string;
   redirect: boolean;
@@ -18,38 +20,48 @@ const publicRoutes: PublicRoute[] = [
   { path: "/store/sign-up", redirect: true },
 ];
 
-const redirect_Auth = "/user/[userId]";
 const redirectUser_NotAuth = "/user/sign-in";
 const redirectStore_NotAuth = "/store/sign-in";
 
 export function middleware(req: NextRequest) {
   const path = req.nextUrl.pathname;
   const publicRoute = publicRoutes.find((r) => r.path === path);
-  const authToken = req.cookies.get("token");
+  const authToken = req.cookies.get("authToken")?.value;
   const redirectUrl = req.nextUrl.clone();
-  const res = NextResponse;
+
+  let userId: string | null = null;
+
+  if (authToken) {
+    try {
+      const decoded = jwt.decode(authToken) as { userId?: string } | null;
+      userId = decoded?.userId || null;
+    } catch (err) {
+      console.error("Invalid token:", err);
+    }
+  }
 
   if (publicRoute) {
-    if (!authToken) return res.next();
-
-    if (publicRoute.redirect) {
-      redirectUrl.pathname = redirect_Auth;
-      return res.redirect(redirectUrl);
+    if (!authToken) {
+      return NextResponse.next();
     }
 
-    return res.next();
+    if (publicRoute.redirect) {
+      redirectUrl.pathname = userId ? `/user/${userId}` : "/";
+      return NextResponse.redirect(redirectUrl);
+    }
+
+    return NextResponse.next();
   }
 
   if (!authToken) {
-    if (path.startsWith("/store/"))
-      redirectUrl.pathname = redirectStore_NotAuth;
-    else if (path.startsWith("/user/"))
-      redirectUrl.pathname = redirectUser_NotAuth;
-    else redirectUrl.pathname = redirectUser_NotAuth;
-    return res.redirect(redirectUrl);
+    redirectUrl.pathname = path.startsWith("/store/")
+      ? redirectStore_NotAuth
+      : redirectUser_NotAuth;
+    console.log("Invalid access, redirecting");
+    return NextResponse.redirect(redirectUrl);
   }
 
-  return res.next();
+  return NextResponse.next();
 }
 
 export const config: MiddlewareConfig = {
